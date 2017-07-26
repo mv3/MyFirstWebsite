@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MyFirstWebsite.Controllers
+namespace TheSnackHole.Controllers
 {
     public class HomeController : Controller
     {

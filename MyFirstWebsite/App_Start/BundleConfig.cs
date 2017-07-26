@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace MyFirstWebsite
+namespace TheSnackHole
 {
     public class BundleConfig
     {

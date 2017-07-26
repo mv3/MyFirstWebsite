@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace MyFirstWebsite
+namespace TheSnackHole
 {
     public class FilterConfig
     {
