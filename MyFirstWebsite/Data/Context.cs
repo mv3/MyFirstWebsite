@@ -15,13 +15,13 @@ namespace TheSnackHole.Data
     {
         public DbSet<Product> Products { get; set; }
 
-        public Context()
-        {
-            // This call to the SetInitializer method is used 
-            // to configure EF to use our custom database initializer class
-            // which contains our app's database seed data.
-            Database.SetInitializer(new DatabaseInitializer());
-        }
+        //public Context()
+        //{
+        //    // This call to the SetInitializer method is used 
+        //    // to configure EF to use our custom database initializer class
+        //    // which contains our app's database seed data.
+        //    Database.SetInitializer(new DatabaseInitializer());
+        //}
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
