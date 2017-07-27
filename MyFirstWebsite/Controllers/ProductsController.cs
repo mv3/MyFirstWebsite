@@ -55,6 +55,8 @@ namespace TheSnackHole.Controllers
         public ActionResult Add()
         {
             var viewModel = new ProductsAddViewModel();
+
+            viewModel.Init(_context);
                         
             return View(viewModel);
         }
@@ -76,7 +78,7 @@ namespace TheSnackHole.Controllers
                 return RedirectToAction("Index");
             }
 
-            
+            viewModel.Init(_context);
 
             return View(viewModel);
         }
@@ -101,7 +103,7 @@ namespace TheSnackHole.Controllers
             {
                 Product = product
             };
-            //viewModel.Init(_context);
+            viewModel.Init(_context);
 
             return View(viewModel);
         }
@@ -123,7 +125,7 @@ namespace TheSnackHole.Controllers
                 return RedirectToAction("Detail", new { id = product.ProductId });
             }
 
-            //model.Init(_context);
+            viewModel.Init(_context);
 
             return View(viewModel);
         }

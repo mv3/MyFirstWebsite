@@ -1,4 +1,4 @@
-﻿@model TheSnackHole.ViewModels.ProductsBaseViewModel
+﻿@model TheSnackHole.ViewModels.ProductsEditViewModel
 @{
     ViewBag.Title = "Edit Product";
 }
@@ -11,13 +11,14 @@
     <h3>Product Information</h3>
 
     @Html.Partial("_ProductsForm")
+
     <div class="row">
         <div class="col-md-12">
             <div class="pad-top">
                 <button type="submit" class="btn btn-success btn-lg margin-right">
                     <span class="glyphicon glyphicon-save"></span> Save
                 </button>
-                <a href="@Url.Action("Detail", new { id = Model.ProductId })" class="btn btn-warning btn-lg">
+                <a href="@Url.Action("Detail", new { id = Model.Id })" class="btn btn-warning btn-lg">
                     <span class="glyphicon glyphicon-remove"></span> Cancel
                 </a>
             </div>

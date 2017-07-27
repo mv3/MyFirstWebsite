@@ -11,12 +11,20 @@ namespace TheSnackHole.ViewModels
 {
     public class ProductsAddViewModel : ProductsBaseViewModel
     {
-       public ProductsAddViewModel()
+        public string Brand { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        //public decimal Price { get; set; }
+
+        public ProductsAddViewModel()
         {
             Product.Price = 0.50m;
         }
-        
 
+        public override void Init(Context context)
+        {
+            base.Init(context);
+        }
 
     }
 }
