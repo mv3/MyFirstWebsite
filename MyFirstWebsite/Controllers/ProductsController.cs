@@ -45,12 +45,13 @@ namespace TheSnackHole.Controllers
             if (ModelState.IsValid)
             {
                 var product = model;
-                
-                // TODO Add the comic book.
+
+                _context.Products.Add(product);
+                _context.SaveChanges();
 
                 TempData["Message"] = "Product was successfully added!";
 
-                return RedirectToAction("Detail", new { id = product.ProductId });
+                return RedirectToAction("Index");
             }
 
             
