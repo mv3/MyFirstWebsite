@@ -1,0 +1,39 @@
+﻿@model List<TheSnackHole.Models.Product>
+@{
+    ViewBag.Title = "Products";
+}
+
+<h2>Products</h2>
+
+@*@foreach(var product in Model)
+{
+    @product.DisplayText
+}*@
+
+<table>
+    <tr>
+        <th>
+            Product
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Price
+        </th>
+    </tr>
+    @foreach(var product in Model)
+    {
+        <tr>
+            <td>
+                @Html.Encode(product.DisplayText)
+            </td>
+            <td>
+                @Html.Encode(product.Description)
+            </td>
+            <td>
+                @Html.Encode(product.Price)
+            </td>
+        </tr>
+    }
+</table>

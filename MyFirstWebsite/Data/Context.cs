@@ -27,7 +27,7 @@ namespace TheSnackHole.Data
         {
             // Removing the pluralizing table name convention 
             // so our table names will use our entity class singular names.
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
             // Using the fluent API to configure the precision and scale
             // for the Product.Price property.

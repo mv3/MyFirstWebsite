@@ -26,5 +26,10 @@ namespace TheSnackHole.Controllers
 
             return View();
         }
+
+        public ActionResult Products()
+        {
+            return View();
+        }
     }
 }
