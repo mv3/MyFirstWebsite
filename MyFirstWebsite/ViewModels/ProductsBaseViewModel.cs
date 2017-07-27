@@ -12,12 +12,13 @@ namespace TheSnackHole.ViewModels
     {
         public Product Product { get; set; } = new Product();
 
-        //public SelectList BrandsSelectListItems { get; set; }
+        public SelectList BrandsSelectListItems { get; set; }
 
         public virtual void Init(Context context)
         {
-            //BrandsSelectListItems = new SelectList(
-            //    );
+            BrandsSelectListItems = new SelectList(
+                context.Brands.OrderBy(b => b.Name)
+                .ToList(), "BrandId", "Name");
         }
     }
 }

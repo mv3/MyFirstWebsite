@@ -48,10 +48,10 @@
         {
             <tr>
                 <td>
-                    @Html.Encode(product.DisplayText)
+                    @Html.Raw(product.DisplayText)
                 </td>
                 <td>
-                    @Html.Encode(product.Description)
+                    @Html.Raw(product.Description)
                 </td>
                 <td>
                     @Html.Encode(product.Price)

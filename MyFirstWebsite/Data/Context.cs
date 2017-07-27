@@ -14,6 +14,7 @@ namespace TheSnackHole.Data
     public class Context : DbContext
     {
         public DbSet<Product> Products { get; set; }
+        public DbSet<Brand> Brands { get; set; }
 
         //public Context()
         //{

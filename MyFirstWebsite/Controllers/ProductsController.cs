@@ -25,6 +25,9 @@ namespace TheSnackHole.Controllers
             using (var context = new Context())
             {
                 var products = context.Products
+                    .Include(p => p.Brand)
+                    .OrderBy(p=> p.Brand.Name)
+                    .ThenBy(p => p.Name)
                     .ToList();
 
                 return View(products);
@@ -39,6 +42,7 @@ namespace TheSnackHole.Controllers
             }
 
             var product = _context.Products
+                    .Include(p => p. Brand)
                     .Where(cb => cb.ProductId == id)
                     .SingleOrDefault();
 
@@ -128,6 +132,38 @@ namespace TheSnackHole.Controllers
             viewModel.Init(_context);
 
             return View(viewModel);
+        }
+
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var product = _context.Products
+                .Include(p => p.Brand)
+                .Where(p => p.ProductId == id)
+                .SingleOrDefault();
+
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(product);
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            var product = new Product() { ProductId = id };
+            _context.Entry(product).State = EntityState.Deleted;
+            _context.SaveChanges();
+
+            TempData["Message"] = "Your product was successfully deleted!";
+
+            return RedirectToAction("Index");
         }
     }
 }
