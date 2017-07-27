@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using TheSnackHole.Data;
 using TheSnackHole.Models;
+using TheSnackHole.ViewModels;
 
 namespace TheSnackHole.Controllers
 {
@@ -27,6 +28,34 @@ namespace TheSnackHole.Controllers
 
                 return View(products);
             }                      
+        }
+
+        public ActionResult Add()
+        {
+            var model = new Product();
+                        
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Add(Product model)
+        {
+           
+
+            if (ModelState.IsValid)
+            {
+                var product = model;
+                
+                // TODO Add the comic book.
+
+                TempData["Message"] = "Product was successfully added!";
+
+                return RedirectToAction("Detail", new { id = product.ProductId });
+            }
+
+            
+
+            return View(model);
         }
     }
 }
