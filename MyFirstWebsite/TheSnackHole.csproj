@@ -158,6 +158,8 @@
     <Compile Include="Models\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\ProductsAddViewModel.cs" />
+    <Compile Include="ViewModels\ProductsBaseViewModel.cs" />
+    <Compile Include="ViewModels\ProductsEditViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -200,6 +202,9 @@
     <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\Products\Add.cshtml" />
     <Content Include="Views\Shared\_Message.cshtml" />
+    <Content Include="Views\Products\Detail.cshtml" />
+    <Content Include="Views\Products\Edit.cshtml" />
+    <Content Include="Views\Products\_ProductsForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

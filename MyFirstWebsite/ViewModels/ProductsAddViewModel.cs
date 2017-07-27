@@ -9,10 +9,12 @@ using System.Web.Mvc;
 
 namespace TheSnackHole.ViewModels
 {
-    public class ProductsAddViewModel
+    public class ProductsAddViewModel : ProductsBaseViewModel
     {
-        public Product Product { get; set; } = new Product();
-
+       public ProductsAddViewModel()
+        {
+            Product.Price = 0.50m;
+        }
         
 
 

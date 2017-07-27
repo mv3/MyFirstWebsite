@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TheSnackHole.Data;
@@ -30,21 +31,42 @@ namespace TheSnackHole.Controllers
             }                      
         }
 
+        public ActionResult Detail(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var product = _context.Products
+                    .Where(cb => cb.ProductId == id)
+                    .SingleOrDefault();
+
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+
+           
+
+            return View(product);
+        }
+
         public ActionResult Add()
         {
-            var model = new Product();
+            var viewModel = new ProductsAddViewModel();
                         
-            return View(model);
+            return View(viewModel);
         }
 
         [HttpPost]
-        public ActionResult Add(Product model)
+        public ActionResult Add(ProductsAddViewModel viewModel)
         {
            
 
             if (ModelState.IsValid)
             {
-                var product = model;
+                var product = viewModel.Product;
 
                 _context.Products.Add(product);
                 _context.SaveChanges();
@@ -56,7 +78,54 @@ namespace TheSnackHole.Controllers
 
             
 
-            return View(model);
+            return View(viewModel);
+        }
+
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var product = _context.Products
+                .Where(cb => cb.ProductId == id)
+                .SingleOrDefault();
+
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+
+            var viewModel = new ProductsEditViewModel()
+            {
+                Product = product
+            };
+            //viewModel.Init(_context);
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(ProductsEditViewModel viewModel)
+        {
+            //ValidateComicBook(model.ComicBook);
+
+            if (ModelState.IsValid)
+            {
+                var product = viewModel.Product;
+
+                _context.Entry(product).State = EntityState.Modified;
+                _context.SaveChanges();
+
+                TempData["Message"] = "Product was successfully updated!";
+
+                return RedirectToAction("Detail", new { id = product.ProductId });
+            }
+
+            //model.Init(_context);
+
+            return View(viewModel);
         }
     }
 }

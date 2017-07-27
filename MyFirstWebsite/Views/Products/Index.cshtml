@@ -34,30 +34,36 @@
     </a>
 </div>
 
-<table>
-    <tr>
-        <th>
-            Product
-        </th>
-        <th>
-            Description
-        </th>
-        <th>
-            Price
-        </th>
-    </tr>
-    @foreach(var product in Model)
-    {
+<table class="table table-striped">
+    <thead>
         <tr>
-            <td>
-                @Html.Encode(product.DisplayText)
-            </td>
-            <td>
-                @Html.Encode(product.Description)
-            </td>
-            <td>
-                @Html.Encode(product.Price)
-            </td>
+            <th>Product</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>&nbsp;</th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>
+                    @Html.Encode(product.DisplayText)
+                </td>
+                <td>
+                    @Html.Encode(product.Description)
+                </td>
+                <td>
+                    @Html.Encode(product.Price)
+                </td>
+                <td>
+                    <div class="pull-right">
+                        <a href="@Url.Action("Detail", new { id = product.ProductId })" class="btn btn-primary btn-xs margin-right">
+                            <span class="glyphicon glyphicon-info-sign"></span><span class="hidden-xs"> Detail</span>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
