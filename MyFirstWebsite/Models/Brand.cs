@@ -10,13 +10,13 @@ namespace TheSnackHole.Models
     {
         public Brand()
         {
-            //Products = new List<ProductBrand>();
+            
         }
 
         public int BrandId { get; set; }
         [Required, StringLength(100)]
         public string Name { get; set; }
 
-        //public ICollection<ProductBrand> Products { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 }

@@ -31,7 +31,8 @@ namespace TheSnackHole.Data
             var product1 = new Product()
             {
                 Brand = brandPringles,
-                Name = "Original",
+                Name = "Potato Chips",
+                Style = "Original",
                 Description = "Original flavored potato chips.",
                 Price = 0.50m
             };
@@ -40,7 +41,8 @@ namespace TheSnackHole.Data
             var product2 = new Product()
             {
                 Brand = brandPringles,
-                Name = "Bacon",
+                Name = "Potato Chips",
+                Style = "Bacon",
                 Description = "Bacon flavored potato chips.",
                 Price = 0.50m
             };
@@ -49,7 +51,8 @@ namespace TheSnackHole.Data
             var product3 = new Product()
             {
                 Brand = brandLittleDebbie,
-                Name = "Apple Fruit Pies",
+                Name = "Fruit Pies",
+                Style = "Apple",
                 Description = "Apple pies.",
                 Price = 0.50m
             };
@@ -58,7 +61,8 @@ namespace TheSnackHole.Data
             var product4 = new Product()
             {
                 Brand = brandKellogs,
-                Name = "Cinnamon Pop-Tarts",
+                Name = "Pop-Tarts",
+                Style = "Cinnamon",
                 Description = "Cinnamon Pop-Tarts.",
                 Price = 0.50m
             };
@@ -67,7 +71,8 @@ namespace TheSnackHole.Data
             var product5 = new Product()
             {
                 Brand = brandLays,
-                Name = "Barbecue Potato Chips",
+                Name = "Potato Chips",
+                Style = "Barbecue",
                 Description = "Barbecue flavored potato chips.",
                 Price = 0.50m
             };

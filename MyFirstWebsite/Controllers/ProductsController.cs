@@ -11,15 +11,8 @@ using TheSnackHole.ViewModels;
 
 namespace TheSnackHole.Controllers
 {
-    public class ProductsController : Controller
+    public class ProductsController : BaseController
     {
-        private Context _context = null;
-
-        public ProductsController()
-        {
-            _context = new Context();
-        }
-
         public ActionResult Index()
         {
             using (var context = new Context())
@@ -41,7 +34,7 @@ namespace TheSnackHole.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var product = _context.Products
+            var product = Context.Products
                     .Include(p => p. Brand)
                     .Where(cb => cb.ProductId == id)
                     .SingleOrDefault();
@@ -60,7 +53,7 @@ namespace TheSnackHole.Controllers
         {
             var viewModel = new ProductsAddViewModel();
 
-            viewModel.Init(_context);
+            viewModel.Init(Context);
                         
             return View(viewModel);
         }
@@ -68,21 +61,21 @@ namespace TheSnackHole.Controllers
         [HttpPost]
         public ActionResult Add(ProductsAddViewModel viewModel)
         {
-           
+            ValidateProduct(viewModel.Product);
 
             if (ModelState.IsValid)
             {
                 var product = viewModel.Product;
 
-                _context.Products.Add(product);
-                _context.SaveChanges();
+                Context.Products.Add(product);
+                Context.SaveChanges();
 
                 TempData["Message"] = "Product was successfully added!";
 
                 return RedirectToAction("Index");
             }
 
-            viewModel.Init(_context);
+            viewModel.Init(Context);
 
             return View(viewModel);
         }
@@ -94,7 +87,7 @@ namespace TheSnackHole.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var product = _context.Products
+            var product = Context.Products
                 .Where(cb => cb.ProductId == id)
                 .SingleOrDefault();
 
@@ -107,7 +100,7 @@ namespace TheSnackHole.Controllers
             {
                 Product = product
             };
-            viewModel.Init(_context);
+            viewModel.Init(Context);
 
             return View(viewModel);
         }
@@ -115,21 +108,21 @@ namespace TheSnackHole.Controllers
         [HttpPost]
         public ActionResult Edit(ProductsEditViewModel viewModel)
         {
-            //ValidateComicBook(model.ComicBook);
+            ValidateProduct(viewModel.Product);
 
             if (ModelState.IsValid)
             {
                 var product = viewModel.Product;
 
-                _context.Entry(product).State = EntityState.Modified;
-                _context.SaveChanges();
+                Context.Entry(product).State = EntityState.Modified;
+                Context.SaveChanges();
 
                 TempData["Message"] = "Product was successfully updated!";
 
                 return RedirectToAction("Detail", new { id = product.ProductId });
             }
 
-            viewModel.Init(_context);
+            viewModel.Init(Context);
 
             return View(viewModel);
         }
@@ -141,7 +134,7 @@ namespace TheSnackHole.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var product = _context.Products
+            var product = Context.Products
                 .Include(p => p.Brand)
                 .Where(p => p.ProductId == id)
                 .SingleOrDefault();
@@ -158,12 +151,40 @@ namespace TheSnackHole.Controllers
         public ActionResult Delete(int id)
         {
             var product = new Product() { ProductId = id };
-            _context.Entry(product).State = EntityState.Deleted;
-            _context.SaveChanges();
+            Context.Entry(product).State = EntityState.Deleted;
+            Context.SaveChanges();
 
             TempData["Message"] = "Your product was successfully deleted!";
 
             return RedirectToAction("Index");
         }
+
+        /// <summary>
+        /// Validates a product on the server
+        /// before adding a new record or updating an existing record.
+        /// </summary>
+        /// <param name="product">The product to validate.</param>
+        private void ValidateProduct(Product product)
+        {
+            // If there aren't any "Brand", "Name", and "Style" field validation errors...
+            if (ModelState.IsValidField("Product.BrandId") &&
+                ModelState.IsValidField("Product.Name") &&
+                ModelState.IsValidField("Product.Style"))
+            {
+                // Then make sure that the provided product is unique for the provided brand.
+
+                if (Context.Products
+                        .Any(p => p.ProductId != product.ProductId &&
+                                   p.BrandId == product.BrandId &&
+                                   p.Name == product.Name &&
+                                   p.Style == product.Style))
+                {
+                    ModelState.AddModelError("Product.Style",
+                        "The provided product has already been entered for the selected Brand.");
+                }
+            }
+        }
+
     }
 }
+

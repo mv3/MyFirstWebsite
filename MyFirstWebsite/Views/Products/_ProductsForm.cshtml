@@ -1,12 +1,7 @@
 ﻿@model TheSnackHole.ViewModels.ProductsBaseViewModel
 
 <div class="row">
-    <div class="col-md-6">
-        @*<div class="form-group">
-            @Html.LabelFor(p => p.Product.Brand, new { @class = "control-label" })
-            @Html.TextBoxFor(p => p.Product.Brand, new { @class = "form-control" })
-        </div>*@
-
+    <div class="col-md-6">        
         <div class="form-group">
             @Html.LabelFor(p => p.Product.BrandId, new { @class = "control-label" })
             @Html.DropDownListFor(p => p.Product.BrandId,
@@ -16,6 +11,10 @@
         <div class="form-group">
             @Html.LabelFor(p => p.Product.Name, new { @class = "control-label" })
             @Html.TextBoxFor(p => p.Product.Name, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(p => p.Product.Style, new { @class = "control-label" })
+            @Html.TextBoxFor(p => p.Product.Style, new { @class = "form-control" })
         </div>
         <div class="form-group">
             @Html.LabelFor(p => p.Product.Description, new { @class = "control-label" })

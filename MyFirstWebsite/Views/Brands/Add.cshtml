@@ -1,17 +1,18 @@
-﻿@model TheSnackHole.ViewModels.ProductsEditViewModel
+﻿@model TheSnackHole.Models.Brand
+
 @{
-    ViewBag.Title = "Edit Product";
+    ViewBag.Title = "Add Brand";
 }
 
 <h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm())
 {
-    //@Html.ValidationSummary("The following errors were found:", new { @class = "alert alert-danger" })
 
-    <h3>Product Information</h3>
+   
+    <h3>Brand Information</h3>
 
-    @Html.Partial("_ProductsForm")
+    @Html.Partial("_BrandsForm")
 
     <div class="row">
         <div class="col-md-12">
@@ -19,11 +20,10 @@
                 <button type="submit" class="btn btn-success btn-lg margin-right">
                     <span class="glyphicon glyphicon-save"></span> Save
                 </button>
-                <a href="@Url.Action("Detail", new { id = Model.Id })" class="btn btn-warning btn-lg">
+                <a href="@Url.Action("Index")" class="btn btn-warning btn-lg">
                     <span class="glyphicon glyphicon-remove"></span> Cancel
                 </a>
             </div>
         </div>
     </div>
 }
-

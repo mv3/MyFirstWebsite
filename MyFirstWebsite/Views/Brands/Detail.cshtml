@@ -1,0 +1,60 @@
+﻿@model TheSnackHole.Models.Brand
+
+@{
+    ViewBag.Title = "Brand Detail";
+}
+
+@Html.Partial("_Message")
+
+<h2>@Model.Name</h2>
+
+@*@if (!string.IsNullOrWhiteSpace(Model.Description))
+{
+    <p>@Model.Description</p>
+}*@
+<h3>Products</h3>
+@if (Model.Products.Count > 0)
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.Products)
+            {
+                <tr>
+                    <td>@product.DisplayText</td>
+                    <td>@product.Price</td>
+                    <td>
+                        <div class="pull-right">
+                            <a href="@Url.Action("Detail","Products", new { id = product.ProductId })" class="btn btn-primary btn-xs margin-right">
+                                <span class="glyphicon glyphicon-info-sign"></span><span class="hidden-xs">Detail</span>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>This brand doesn't contain any products.</p>
+}
+
+
+<div class="pad-top">
+    <a href="@Url.Action("Edit", new { id = Model.BrandId })" class="btn btn-primary btn-lg margin-right">
+        <span class="glyphicon glyphicon-edit"></span> Edit
+    </a>
+    <a href="@Url.Action("Delete", new { id = Model.BrandId })" class="btn btn-danger btn-lg margin-right">
+        <span class="glyphicon glyphicon-trash"></span> Delete
+    </a>
+    <a href="@Url.Action("Index")" class="btn btn-default btn-lg">
+        <span class="glyphicon glyphicon-step-backward"></span> Back
+    </a>
+</div>

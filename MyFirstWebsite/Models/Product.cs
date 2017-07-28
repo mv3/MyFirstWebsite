@@ -17,6 +17,8 @@ namespace TheSnackHole.Models
         [Display(Name = "Brand")]
         public int BrandId { get; set; }
         public string Name { get; set; }
+        [Display(Name = "Style/Flavor")]
+        public string Style { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
 
@@ -27,7 +29,7 @@ namespace TheSnackHole.Models
         {
             get
             {
-                return $"{Brand.Name} {Name}";
+                return $"{Brand.Name} {Style} {Name}";
             }
         }
     }
