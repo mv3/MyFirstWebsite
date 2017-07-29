@@ -11,14 +11,14 @@ using TheSnackHole.ViewModels;
 
 namespace TheSnackHole.Controllers
 {
-    public class BrandsController : Controller
+    public class BrandsController : BaseController
     {
-        private Context _context = null;
+        //private Context Context = null;
 
-        public BrandsController()
-        {
-            _context = new Context();
-        }
+        //public BrandsController()
+        //{
+        //    Context = new Context();
+        //}
 
         public ActionResult Index()
         {
@@ -41,7 +41,7 @@ namespace TheSnackHole.Controllers
             }
 
            
-            var brand = _context.Brands
+            var brand = Context.Brands
                     .Include(b => b.Products)
                     .Where(b => b.BrandId == id)
                     .SingleOrDefault();
@@ -69,13 +69,13 @@ namespace TheSnackHole.Controllers
         [HttpPost]
         public ActionResult Add(Brand brand)
         {
-            //ValidateSeries(brand);
+            ValidateBrand(brand);
 
             if (ModelState.IsValid)
             {
                 // Add the brand. 
-                _context.Brands.Add(brand);
-                _context.SaveChanges();
+                Context.Brands.Add(brand);
+                Context.SaveChanges();
 
                 TempData["Message"] = "Your brand was successfully added!";
 
@@ -93,7 +93,7 @@ namespace TheSnackHole.Controllers
             }
 
             // Get the brand.
-            var brand = _context.Brands
+            var brand = Context.Brands
                  .Where(b => b.BrandId == id)
                  .SingleOrDefault();
 
@@ -108,13 +108,14 @@ namespace TheSnackHole.Controllers
         [HttpPost]
         public ActionResult Edit(Brand brand)
         {
-            //ValidateSeries(brand);
+            ValidateBrand(brand);
 
             if (ModelState.IsValid)
             {
                 // Update the brand.
-                _context.Entry(brand).State = EntityState.Modified;
-                _context.SaveChanges();
+
+                Context.Entry(brand).State = EntityState.Modified;
+                Context.SaveChanges();
 
                 TempData["Message"] = "Your brand was successfully updated!";
 
@@ -132,7 +133,7 @@ namespace TheSnackHole.Controllers
             }
 
             // Get the brand.
-            var brand = _context.Brands
+            var brand = Context.Brands
                 .Include(b => b.Products)
                 .Where(b => b.BrandId == id)
                 .SingleOrDefault();
@@ -150,32 +151,34 @@ namespace TheSnackHole.Controllers
         {
             // Delete the brand.
             var brand = new Brand() { BrandId = id };
-            _context.Entry(brand).State = EntityState.Deleted;
-            _context.SaveChanges();
+            Context.Entry(brand).State = EntityState.Deleted;
+            Context.SaveChanges();
 
             TempData["Message"] = "Your brand was successfully deleted!";
 
             return RedirectToAction("Index");
         }
 
-        ///// <summary>
-        ///// Validates a series on the server
-        ///// before adding a new record or updating an existing record.
-        ///// </summary>
-        ///// <param name="series">The series to validate.</param>
-        //private void ValidateSeries(Brand brand)
-        //{
-        //    //// If there aren't any "Title" field validation errors...
-        //    //if (ModelState.IsValidField("Title"))
-        //    //{
-        //    //    // Then make sure that the provided title is unique.
-        //    //    // TODO Call method to check if the title is available.
-        //    //    if (false)
-        //    //    {
-        //    //        ModelState.AddModelError("Title",
-        //    //            "The provided Title is in use by another series.");
-        //    //    }
-        //    //}
-        //}
+        /// <summary>
+        /// Validates a brand on the server
+        /// before adding a new record or updating an existing record.
+        /// </summary>
+        /// <param name="brand">The brand to validate.</param>
+        private void ValidateBrand(Brand brand)
+        {
+            // If there aren't any "Name" field validation errors...
+            if (ModelState.IsValidField("Name"))
+            {
+                // Then make sure that the provided Name is unique.
+                // TODO Call method to check if the name is available.
+                if (Context.Brands
+                        .Any(b => b.BrandId != brand.BrandId &&
+                                   b.Name == brand.Name))
+                {
+                    ModelState.AddModelError("Name",
+                        "The provided Name is in use by another brand.");
+                }
+            }
+        }
     }
 }

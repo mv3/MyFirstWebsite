@@ -8,9 +8,8 @@
 @using (Html.BeginForm())
 {
     
-    
     @Html.Partial("_BrandsForm")
-
+    @Html.HiddenFor(b => b.BrandId)
     <div class="row">
         <div class="col-md-12">
             <div class="pad-top">
