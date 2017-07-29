@@ -24,9 +24,11 @@ namespace TheSnackHole.Models
         public string Description { get; set; }
         [Required]
         [RegularExpression(@"\d+(\.\d{1,2})?", ErrorMessage = "Invalid price")]
-        [Range(0.01, 999999999, ErrorMessage = "Price must be greater than 0.00")]
+        [Range(0.01, 99999, ErrorMessage = "Price must be greater than 0.00")]
         [Display(Name = "Price ($)")]
         public decimal Price { get; set; }
+        [Required, Display(Name = "Availability")]
+        public bool InStock { get; set; }
 
         public Brand Brand { get; set; }
 
@@ -35,7 +37,7 @@ namespace TheSnackHole.Models
         {
             get
             {
-                return $"{Brand.Name} {Style} {Name}";
+                return $"{Style} {Name}";
             }
         }
     }

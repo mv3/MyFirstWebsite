@@ -12,7 +12,11 @@
     </a>
 </div>
 
-<table class="table table-striped">
+
+@*@Html.Partial("_ProductsGrid")*@
+@Html.MVCGrid("ProductsGrid")
+
+@*<table class="table table-striped">
     <thead>
         <tr>
             <th>Product</th>
@@ -44,4 +48,4 @@
             </tr>
         }
     </tbody>
-</table>
+</table>*@

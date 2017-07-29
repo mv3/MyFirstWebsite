@@ -34,7 +34,8 @@ namespace TheSnackHole.Data
                 Name = "Potato Chips",
                 Style = "Original",
                 Description = "Original flavored potato chips.",
-                Price = 0.50m
+                Price = 0.50m,
+                InStock = true
             };
             context.Products.Add(product1);
 
@@ -44,7 +45,8 @@ namespace TheSnackHole.Data
                 Name = "Potato Chips",
                 Style = "Bacon",
                 Description = "Bacon flavored potato chips.",
-                Price = 0.50m
+                Price = 0.50m,
+                InStock = false
             };
             context.Products.Add(product2);
 
@@ -54,7 +56,8 @@ namespace TheSnackHole.Data
                 Name = "Fruit Pies",
                 Style = "Apple",
                 Description = "Apple pies.",
-                Price = 0.50m
+                Price = 0.50m,
+                InStock = true
             };
             context.Products.Add(product3);
 
@@ -64,7 +67,8 @@ namespace TheSnackHole.Data
                 Name = "Pop-Tarts",
                 Style = "Cinnamon",
                 Description = "Cinnamon Pop-Tarts.",
-                Price = 0.50m
+                Price = 0.50m,
+                InStock = true
             };
             context.Products.Add(product4);
 
@@ -74,7 +78,8 @@ namespace TheSnackHole.Data
                 Name = "Potato Chips",
                 Style = "Barbecue",
                 Description = "Barbecue flavored potato chips.",
-                Price = 0.50m
+                Price = 0.50m,
+                InStock = true
             };
             context.Products.Add(product5);
 
