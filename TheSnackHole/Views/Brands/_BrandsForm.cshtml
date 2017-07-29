@@ -5,6 +5,7 @@
         <div class="form-group">
             @Html.LabelFor(b => b.Name, new { @class = "control-label" })
             @Html.TextBoxFor(b => b.Name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(b => b.Name)
         </div>        
     </div>
 </div>

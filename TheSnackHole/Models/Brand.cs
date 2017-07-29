@@ -14,7 +14,7 @@ namespace TheSnackHole.Models
         }
 
         public int BrandId { get; set; }
-        [Required, StringLength(100)]
+        [Required, StringLength(100, ErrorMessage = "The Name field cannot be longer than 100 characters.")]
         public string Name { get; set; }
 
         public ICollection<Product> Products { get; set; }
