@@ -45,13 +45,23 @@
     <script src="~/Scripts/jquery-3.1.1.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
+    
 
     <script src="~/Scripts/jquery.validate.bootstrap.js"></script>
     <!-- Be sure this is after jquery reference -->
     <script src="~/MVCGridHandler.axd/script.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
     @*@Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)*@
+
+    <script type="text/javascript">
+    $(function () {
+        $('#exportButton').click(function () {
+            location.href = MVCGrid.getExportUrl('ProductsGrid');
+        });
+    });
+    </script>
 </body>
 </html>

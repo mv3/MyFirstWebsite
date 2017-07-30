@@ -40,6 +40,13 @@ namespace TheSnackHole.Models
                 return $"{Style} {Name}";
             }
         }
+        public string DisplayTextWithBrand
+        {
+            get
+            {
+                return $"{Brand.Name} {Style} {Name}";
+            }
+        }
     }
 
     

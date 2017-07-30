@@ -13,39 +13,5 @@
 </div>
 
 
-@*@Html.Partial("_ProductsGrid")*@
-@Html.MVCGrid("ProductsGrid")
 
-@*<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Product</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>&nbsp;</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var product in Model)
-        {
-            <tr>
-                <td>
-                    @Html.Raw(product.DisplayText)
-                </td>
-                <td>
-                    @Html.Raw(product.Description)
-                </td>
-                <td>
-                    @Html.Encode(product.Price)
-                </td>
-                <td>
-                    <div class="pull-right">
-                        <a href="@Url.Action("Detail", new { id = product.ProductId })" class="btn btn-primary btn-xs margin-right">
-                            <span class="glyphicon glyphicon-info-sign"></span><span class="hidden-xs"> Detail</span>
-                        </a>
-                    </div>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>*@
+@Html.Partial("_ProductsGrid")
