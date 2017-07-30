@@ -18,7 +18,7 @@ namespace TheSnackHole.App_Start
             MVCGridDefinitionTable.Add("ProductsGrid", new MVCGridBuilder<Product>()
                 .WithAuthorizationType(AuthorizationType.AllowAnonymous)
                 .WithSorting(sorting: true, defaultSortColumn: "Name", defaultSortDirection: SortDirection.Dsc)
-                //.WithPaging(paging: true, itemsPerPage: 10, allowChangePageSize: true, maxItemsPerPage: 100)
+                .WithPaging(true, 8,true,100)
                 .WithAdditionalQueryOptionNames("Search")
                 .AddColumns(cols =>
             {
@@ -75,6 +75,7 @@ namespace TheSnackHole.App_Start
         using (var qContext = new Context())
         {                     
             var query = qContext.Products.Include(p => p.Brand);
+            result.TotalRecords = query.Count();
             if (!String.IsNullOrWhiteSpace(options.SortColumnName))
             {
                 switch (options.SortColumnName)
@@ -96,6 +97,10 @@ namespace TheSnackHole.App_Start
                         query = query.OrderBy(p => p.ProductId);
                         break;
                 }
+            }
+            if (options.GetLimitOffset().HasValue)
+            {
+                query = query.Skip(options.GetLimitOffset().Value).Take(options.GetLimitRowcount().Value);
             }
             result.Items = query.ToList();
         }
