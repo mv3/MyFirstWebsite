@@ -7,6 +7,7 @@ using MVCGrid.Models;
 using TheSnackHole.Models;
 using TheSnackHole.Data;
 using System.Data.Entity;
+using System.Web.Mvc;
 
 namespace TheSnackHole.App_Start
 {
@@ -17,9 +18,10 @@ namespace TheSnackHole.App_Start
             // add your Grid definitions here, using the MVCGridDefinitionTable.Add method
             MVCGridDefinitionTable.Add("ProductsGrid", new MVCGridBuilder<Product>()
                 .WithAuthorizationType(AuthorizationType.AllowAnonymous)
-                .WithSorting(sorting: true, defaultSortColumn: "Name", defaultSortDirection: SortDirection.Dsc)
-                .WithPaging(true, 8,true,100)
+                .WithSorting(sorting: true, defaultSortColumn: "BrandId", defaultSortDirection: SortDirection.Dsc)
+                .WithPaging(true, 10, true, 100)
                 .WithAdditionalQueryOptionNames("Search")
+                .WithFiltering(true)
                 .AddColumns(cols =>
             {
                 // Add your columns here
@@ -28,13 +30,15 @@ namespace TheSnackHole.App_Start
                     .WithValueTemplate("<a href='{Value}'>{Model.Brand.Name}</a>", false)
                     .WithPlainTextValueExpression(p => p.DisplayText)
                     .WithVisibility(visible: true, allowChangeVisibility: false)
-                    .WithSorting(true); 
+                    .WithSorting(true)
+                    .WithFiltering(false);
                 cols.Add("DisplayText").WithHeaderText("Proudct")
                     .WithValueExpression((p, c) => c.UrlHelper.Action("Detail", "Products", new { id = p.ProductId }))
                     .WithValueTemplate("<a href='{Value}'>{Model.DisplayText}</a>", false)
                     .WithPlainTextValueExpression(p => p.DisplayText)
                     .WithVisibility(visible: true, allowChangeVisibility: false)
-                    .WithSorting(true);
+                    .WithSorting(true)
+                    .WithFiltering(false);
                 cols.Add("Name").WithHeaderText("Name")
                     .WithValueExpression(p => p.Name)
                     .WithVisibility(visible: false, allowChangeVisibility: true)
@@ -46,71 +50,42 @@ namespace TheSnackHole.App_Start
                 cols.Add("Description")
                     .WithValueExpression(p => p.Description)
                     .WithVisibility(visible: true, allowChangeVisibility: true)
-                    .WithSorting(false); 
+                    .WithSorting(false);
                 cols.Add("Price").WithHeaderText("Price ($)")
                     .WithValueExpression(p => p.Price.ToString())
                     .WithVisibility(visible: true, allowChangeVisibility: true)
-                    .WithSorting(false);       
+                    .WithSorting(false);
                 cols.Add("InStock").WithHeaderText("Status")
                     .WithValueExpression(p => p.InStock ? "In Stock" : "Out of Stock")
                     .WithCellCssClassExpression(p => p.InStock ? "success" : "danger")
                     .WithVisibility(visible: true, allowChangeVisibility: true)
-                    .WithSorting(false);
+                    .WithSorting(false)
+                    .WithFiltering(true);
             })
     .WithRetrieveDataMethod((context) =>
     {
-        // Query your data here. Obey Ordering, paging and filtering paramters given in the context.QueryOptions.
-        // Use Entity Framwork, a module from your IoC Container, or any other method.
-        // Return QueryResult object containing IEnumerable<YouModelItem>
-        //return new QueryResult<Product>()
-        //{
-        //    Items = new List<Product>(),
-        //    TotalRecords = 0 // if paging is enabled, return the total number of records of all pages
-        //};
-        
-        var products = new List<Product>();
-        var options = context.QueryOptions;
-        var result = new QueryResult<Product>();
-        string globalSearch = options.GetAdditionalQueryOptionString("search");
-
-        using (var qContext = new Context())
-        {                     
-            var query = qContext.Products.Include(p => p.Brand);
-            result.TotalRecords = query.Count();
-            if (!String.IsNullOrWhiteSpace(options.SortColumnName))
-            {
-                switch (options.SortColumnName)
-                {
-                    case "BrandId":
-                        //query = query.OrderBy(p => p.Brand.Name);
-                        query = options.SortDirection == SortDirection.Asc ? query.OrderBy(p => p.Brand.Name) : query.OrderByDescending(p => p.Brand.Name);
-                        break;
-                    case "DisplayText":                        
-                        query = options.SortDirection == SortDirection.Asc ? query.OrderBy(p => p.Name).ThenBy(p => p.Style) : query.OrderByDescending(p => p.Name).ThenBy(p => p.Style);
-                        break;
-                    case "Name":
-                        query = options.SortDirection == SortDirection.Asc ? query.OrderBy(p => p.Name) : query.OrderByDescending(p => p.Name);
-                        break;
-                    case "Style":
-                        query = options.SortDirection == SortDirection.Asc ? query.OrderBy(p => p.Style) : query.OrderByDescending(p => p.Style);
-                        break;
-                    default:
-                        query = query.OrderBy(p => p.ProductId);
-                        break;
-                }
-            }
-            if (options.GetLimitOffset().HasValue)
-            {
-                query = query.Skip(options.GetLimitOffset().Value).Take(options.GetLimitRowcount().Value);
-            }
-            result.Items = query.ToList();
-        }
-
-        return result;
-        //return new QueryResult<Product>()
-        //{
-        //    Items = products
-        //}; 
+    //var products = new List<Product>();
+    var options = context.QueryOptions;
+    int totalRecords;
+    //var repo = DependencyResolver.Current.GetService<IProductRepository>();
+    ProductRepository _repo = null;
+    Context _context = new Context();
+    _repo = new ProductRepository(_context);
+    string globalSearch = options.GetAdditionalQueryOptionString("search");
+    bool? inStock = null;
+    string fa = options.GetFilterString("InStock");
+    if (!String.IsNullOrWhiteSpace(fa))
+    {
+        inStock = (String.Compare(fa, "in stock", true) == 0);
+    }
+    string sortColumn = options.GetSortColumnData<string>();
+    var items = _repo.GetData(out totalRecords, globalSearch, inStock, options.GetLimitOffset(), options.GetLimitRowcount(),
+        sortColumn, options.SortDirection == SortDirection.Dsc);
+    return new QueryResult<Product>()
+    {
+        Items = items,
+        TotalRecords = totalRecords
+    };
     })
 );
         }

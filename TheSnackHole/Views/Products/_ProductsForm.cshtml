@@ -29,11 +29,22 @@
             @Html.TextBoxFor(p => p.Product.Price, new { @class = "form-control" })
             @Html.ValidationMessageFor(p => p.Product.Price)
         </div>
-        <div class="form-group">
+        @*<div class="form-group">
             <div class="checkbox">
                 <label>
                     @Html.CheckBoxFor(p => p.Product.InStock) @Html.DisplayNameFor(p => p.Product.InStock)
                     @Html.ValidationMessageFor(p => p.Product.InStock)
+                </label>
+            </div>
+        </div>*@
+        <div class="form-group">
+            @Html.LabelFor(p => p.Product.InStock, new { @class = "control-label" })
+            <div>
+                <label class="radio-inline">
+                    @Html.RadioButtonFor(p => p.Product.InStock, true) In Stock
+                </label>
+                <label class="radio-inline">
+                    @Html.RadioButtonFor(p => p.Product.InStock, false) Out of Stock
                 </label>
             </div>
         </div>
