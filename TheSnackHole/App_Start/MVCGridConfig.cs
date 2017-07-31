@@ -71,6 +71,7 @@ namespace TheSnackHole.App_Start
         var products = new List<Product>();
         var options = context.QueryOptions;
         var result = new QueryResult<Product>();
+        string globalSearch = options.GetAdditionalQueryOptionString("search");
 
         using (var qContext = new Context())
         {                     
